@@ -82,9 +82,9 @@ const createSendTokenResponse = (user, statusCode, res, req) => {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { id, name, mname, lname, phone, password, role } = req.body
+  const { id, name, mname, lname, phone, password } = req.body
   const user = await prisma.user.create({
-    data: { id, name, mname, lname, phone, password, role },
+    data: { id, name, mname, lname, phone, password },
   })
   createSendTokenResponse(user, 201, res, req)
 })

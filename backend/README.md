@@ -22,11 +22,20 @@ Requirements:
    npm install
    ```
 
-4. Do your coding and push to your branch only.
+4. Ask for the .env file and put it beside README.md
+
+5. Change your database user name and password for DATABASE_URL
+
+6. Create a database on your localhost called 'HealthRecordsDB' and run:
+
+   ```bash
+   npx prisma migrate dev --name init
+   ```
 
 ### Starting the App
 
-1. Start development server:
+1. Now you can call your requests to 'http://localhost:8000/api'. To start the server, run:
+
    ```bash
    npm run dev
    ```

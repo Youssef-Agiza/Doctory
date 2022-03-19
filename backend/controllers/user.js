@@ -36,7 +36,7 @@ exports.getUser = handlerFactory.getDocument({
 exports.createUser = handlerFactory.createDocument({
   modelName: "user",
   resultName: "user",
-  insertFields: ["id", "name", "mname", "lname", "phone", "role", "password"],
+  insertFields: ["id", "name", "mname", "lname", "phone", "password"],
   defaultFieldsSelect: {
     ...defaultFieldsSelect,
     ...excludedFieldsSelect,
@@ -46,7 +46,7 @@ exports.createUser = handlerFactory.createDocument({
 exports.updateUser = handlerFactory.updateDocument({
   modelName: "user",
   resultName: "user",
-  updateFields: ["id", "name", "mname", "lname", "phone", "role", "password"],
+  updateFields: ["id", "name", "mname", "lname", "phone", "password"],
   defaultFieldsSelect: {
     ...defaultFieldsSelect,
     ...excludedFieldsSelect,
