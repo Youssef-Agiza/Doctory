@@ -69,12 +69,12 @@ model user {
   email                                               String?        @db.VarChar(255)
   address                                             String?        @db.VarChar(255)
   birthdate                                           DateTime?      @db.DateTime(0)
-  role_id                                             Int
+  role_id                                             Int?
   password                                            String         @db.VarChar(125)
   passwordChangedAt                                   DateTime?      @db.DateTime(0)
   passwordResetToken                                  String?        @db.VarChar(125)
   passwordResetTokenExpiry                            DateTime?      @db.DateTime(0)
-  role                                                role           @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role1")
+  role                                                role?          @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role1")
   appointments_appointments_dr_national_idTouser      appointments[] @relation("appointments_dr_national_idTouser")
   appointments_appointments_patient_national_idTouser appointments[] @relation("appointments_patient_national_idTouser")
 

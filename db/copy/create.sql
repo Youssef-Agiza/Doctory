@@ -15,6 +15,19 @@ CREATE SCHEMA IF NOT EXISTS `HealthRecordsDB` ;
 USE `HealthRecordsDB` ;
 
 -- -----------------------------------------------------
+-- Table `HealthRecordsDB`.`role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `HealthRecordsDB`.`role` ;
+
+CREATE TABLE IF NOT EXISTS `HealthRecordsDB`.`role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `privileges` VARCHAR(225) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `HealthRecordsDB`.`user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `HealthRecordsDB`.`user` ;
@@ -28,24 +41,18 @@ CREATE TABLE IF NOT EXISTS `HealthRecordsDB`.`user` (
   `email` VARCHAR(255) NULL,
   `address` VARCHAR(255) NULL,
   `birthdate` DATETIME NULL,
+  `role_id` INT NULL,
   `password` VARCHAR(125) NOT NULL,
   `passwordChangedAt` DATETIME NULL,
   `passwordResetToken` VARCHAR(125) NULL,
   `passwordResetTokenExpiry` DATETIME NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `HealthRecordsDB`.`role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `HealthRecordsDB`.`role` ;
-
-CREATE TABLE IF NOT EXISTS `HealthRecordsDB`.`role` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `privileges` VARCHAR(225) NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  INDEX `fk_user_role1_idx` (`role_id` ASC) VISIBLE,
+  CONSTRAINT `fk_user_role1`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `HealthRecordsDB`.`role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
