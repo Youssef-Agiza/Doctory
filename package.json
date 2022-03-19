@@ -14,9 +14,11 @@
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "prisma": "^3.11.0"
   },
   "dependencies": {
+    "@prisma/client": "^3.11.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
