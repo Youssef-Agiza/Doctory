@@ -8,6 +8,7 @@ const AppError = require("./utils/AppError")
 const app = express()
 
 app.use(express.static(path.join(__dirname, "public")))
+app.use(express.json())
 
 const corsOptions = {
   origin: [process.env.DEV_BASE_URL, process.env.PROD_BASE_URL],

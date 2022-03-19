@@ -1,7 +1,8 @@
-import { AppError, catchAsync } from "../utils/errorFactory"
-import prisma from "../models"
+const { catchAsync } = require("./error")
+const AppError = require("../utils/AppError")
+const prisma = require("../models")
 
-export const getAllDocuments = ({
+exports.getAllDocuments = ({
   modelName,
   resultsName,
   defaultFieldsSelect,
@@ -21,10 +22,9 @@ export const getAllDocuments = ({
     })
   })
 
-export const getDocument = ({
+exports.getDocument = ({
   modelName,
   resultName,
-  populateOptions,
   defaultFieldsSelect,
   excludedFieldsSelect,
 }) =>
@@ -46,7 +46,7 @@ export const getDocument = ({
     }
   })
 
-export const createDocument = ({
+exports.createDocument = ({
   modelName,
   resultName,
   insertFields,
@@ -72,7 +72,7 @@ export const createDocument = ({
     })
   })
 
-export const updateDocument = ({
+exports.updateDocument = ({
   modelName,
   resultName,
   updateFields,
@@ -105,19 +105,19 @@ export const updateDocument = ({
     }
   })
 
-export const deleteDocuments = ({ modelName }) =>
+exports.deleteDocuments = ({ modelName }) =>
   catchAsync(async (req, res, next) => {
     try {
       const deletedDocs = await prisma[modelName].deleteMany({
         where: {
           id: {
-            in: req.body.ids,
+            in: req.body.id,
           },
         },
       })
       if (deletedDocs.count === 0)
         return next(new AppError("record is not found", 404))
-      res.status(204).json({
+      res.status(200).json({
         status: "success",
       })
     } catch (err) {

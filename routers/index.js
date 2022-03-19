@@ -1,10 +1,10 @@
 const express = require("express")
-import userRouter from "./user"
-import authRouter from "./auth"
+const userRouter = require("./user")
+const authRouter = require("./auth")
 
 const AppRouter = express.Router()
 
-AppRouter.use("/", authRouter)
+AppRouter.use("/auth", authRouter)
 AppRouter.use("/users", userRouter)
 
 module.exports = AppRouter

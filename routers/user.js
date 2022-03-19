@@ -1,5 +1,5 @@
-import express from "express"
-import * as userController from "../controllers/user"
+const express = require("express")
+const userController = require("../controllers/user")
 
 const userRouter = express.Router()
 
@@ -14,4 +14,4 @@ userRouter
   .get(userController.getUser)
   .patch(userController.updateUser)
 
-export default userRouter
+module.exports = userRouter

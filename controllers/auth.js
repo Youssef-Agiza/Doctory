@@ -1,12 +1,12 @@
-import jwt from "jsonwebtoken"
-import prisma from "../models"
-import { AppError } from "../utils/error"
-import { catchAsync } from "./error"
-import { isCorrectPassword } from "../models/auth"
+const jwt = require("jsonwebtoken")
+const prisma = require("../models")
+const AppError = require("../utils/AppError")
+const { catchAsync } = require("./error")
+const { isCorrectPassword } = require("../models/auth")
 
 // check if the user is logged in through header token
 // if token is verified, user data is added to req object
-export const protectRoute = catchAsync(async (req, res, next) => {
+exports.protectRoute = catchAsync(async (req, res, next) => {
   try {
     let token = ""
     if (
@@ -81,15 +81,15 @@ const createSendTokenResponse = (user, statusCode, res, req) => {
   })
 }
 
-export const signup = catchAsync(async (req, res, next) => {
-  const { id, name, mnane, lname, phone, password } = req.body
+exports.signup = catchAsync(async (req, res, next) => {
+  const { id, name, mname, lname, phone, password, role } = req.body
   const user = await prisma.user.create({
-    data: { id, name, mnane, lname, phone, password },
+    data: { id, name, mname, lname, phone, password, role },
   })
   createSendTokenResponse(user, 201, res, req)
 })
 
-export const login = catchAsync(async (req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
   const { id, password } = req.body
 
   // find user of the national id in the request

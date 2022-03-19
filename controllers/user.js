@@ -1,4 +1,4 @@
-import * as handlerFactory from "./factory"
+const handlerFactory = require("./factory")
 
 const defaultFieldsSelect = {
   id: true,
@@ -19,21 +19,21 @@ const excludedFieldsSelect = {
   passwordResetTokenExpiry: false,
 }
 
-export const getAllUsers = handlerFactory.getAllDocuments({
+exports.getAllUsers = handlerFactory.getAllDocuments({
   modelName: "user",
   resultsName: "users",
   defaultFieldsSelect,
   excludedFieldsSelect,
 })
 
-export const getUser = handlerFactory.getDocument({
+exports.getUser = handlerFactory.getDocument({
   modelName: "user",
   resultName: "user",
   defaultFieldsSelect,
   excludedFieldsSelect,
 })
 
-export const createUser = handlerFactory.createDocument({
+exports.createUser = handlerFactory.createDocument({
   modelName: "user",
   resultName: "user",
   insertFields: ["id", "name", "mname", "lname", "phone", "role", "password"],
@@ -43,7 +43,7 @@ export const createUser = handlerFactory.createDocument({
   },
 })
 
-export const updateUser = handlerFactory.updateDocument({
+exports.updateUser = handlerFactory.updateDocument({
   modelName: "user",
   resultName: "user",
   updateFields: ["id", "name", "mname", "lname", "phone", "role", "password"],
@@ -53,6 +53,6 @@ export const updateUser = handlerFactory.updateDocument({
   },
 })
 
-export const deleteUser = handlerFactory.deleteDocuments({
+exports.deleteUser = handlerFactory.deleteDocuments({
   modelName: "user",
 })

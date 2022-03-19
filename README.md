@@ -30,3 +30,7 @@ Requirements:
    ```bash
    npm run dev
    ```
+
+# Known Issues
+
+- delete user may result in delete all the records if the request body params is not proper.

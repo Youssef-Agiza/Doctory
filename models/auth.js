@@ -1,11 +1,8 @@
-import bcrypt from "bcryptjs"
-import prisma from "./"
+const bcrypt = require("bcryptjs")
+const prisma = require(".")
 
 // compare between a hashed and non hashed user password
-export const isCorrectPassword = async (
-  password = "__",
-  hashedPassword = "_"
-) => {
+exports.isCorrectPassword = async (password = "__", hashedPassword = "_") => {
   return await bcrypt.compare(password, hashedPassword)
 }
 
@@ -15,7 +12,7 @@ const hashUserPassword = async (password) => {
 
 // middleware to hash password before signing up
 prisma.$use(async (params, next) => {
-  if (params.model === "User" && params.action === "create") {
+  if (params.model === "user" && params.action === "create") {
     const hashedPassword = await hashUserPassword(params.args.data.password)
     params.args.data.password = hashedPassword
   }
@@ -25,7 +22,7 @@ prisma.$use(async (params, next) => {
 // middleware to hash password before resetting/changing password
 prisma.$use(async (params, next) => {
   if (
-    params.model === "User" &&
+    params.model === "user" &&
     params.action.startsWith("update") &&
     params.args.data.password
   ) {
