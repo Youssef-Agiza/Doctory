@@ -19,6 +19,9 @@ app.options("*", cors(corsOptions))
 
 // Routes
 app.use("/api", AppRouter)
+app.use("/", (req, res, next) => {
+  res.send("Home screen")
+})
 
 // Catch undefined routes
 app.all("*", (req, res, next) => {

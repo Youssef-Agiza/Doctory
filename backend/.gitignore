@@ -2,3 +2,7 @@
 .env
 
 /prisma/migrations
+
+npm-debug.log
+.DS_Store
+/*.env
