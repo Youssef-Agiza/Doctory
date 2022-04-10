@@ -1,5 +1,5 @@
 const express = require("express")
-const recordController = require("../controllers/recordsAPI")
+const recordController = require("../controllers/record")
 
 const recordRouter = express.Router()
 
@@ -9,14 +9,11 @@ recordRouter
   .get(recordController.getAllRecords)
   .post(recordController.createRecord)
 
-  // for a single id
+// for a single id
 recordRouter
   .route("/:id")
   .get(recordController.getRecord)
   .patch(recordController.updateRecord)
   .delete(recordController.deleteRecord)
 
-
-module.exports = userRouter
-
-
+module.exports = recordRouter

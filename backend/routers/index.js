@@ -7,6 +7,6 @@ const AppRouter = express.Router()
 
 AppRouter.use("/auth", authRouter)
 AppRouter.use("/users", userRouter)
-AppRouter.use("/record", recordRouter)
+AppRouter.use("/records", recordRouter)
 
 module.exports = AppRouter
