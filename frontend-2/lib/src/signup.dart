@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_login_signup/src/welcomePage.dart';
 import 'package:flutter_login_signup/src/loginPage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_login_signup/src/which_user.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key ?key, this.title}) : super(key: key);
@@ -15,7 +17,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _backButton() {
     return InkWell(
       onTap: () {
-        Navigator.pop(context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WelcomePage()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -58,29 +61,32 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _submitButton() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xff7c4dff), Color(0xffb388ff)])),
-      child: Text(
-        'Register Now',
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
-    );
-  }
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => which_user()));
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(vertical: 13),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Color(0xff673AB7).withAlpha(100),
+                    offset: Offset(2, 4),
+                    blurRadius: 8,
+                    spreadRadius: 2)
+              ],
+              color: Colors.white),
+          child: Text(
+            'Login',
+            style: TextStyle(fontSize: 20, color: Color(0xff673AB7)),
+          ),
+        ),
+      );
+    }
 
   Widget _loginAccountLabel() {
     return InkWell(
