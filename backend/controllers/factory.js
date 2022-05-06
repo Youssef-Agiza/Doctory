@@ -10,11 +10,13 @@ exports.getAllDocuments = ({
 }) =>
   catchAsync(async (req, res, next) => {
     const docs = await prisma[modelName].findMany({
-      select: { ...defaultFieldsSelect, ...excludedFieldsSelect },
+      ...(defaultFieldsSelect || excludedFieldsSelect
+        ? { select: { ...defaultFieldsSelect, ...excludedFieldsSelect } }
+        : {}),
     })
 
     res.status(200).json({
-      status: "success",
+      status: "successful",
       results: docs.length,
       data: {
         [resultsName]: docs,
@@ -32,11 +34,13 @@ exports.getDocument = ({
     try {
       const doc = await prisma[modelName].findFirst({
         where: { id: +req.params.id },
-        select: { ...defaultFieldsSelect, ...excludedFieldsSelect },
+        ...(defaultFieldsSelect || excludedFieldsSelect
+          ? { select: { ...defaultFieldsSelect, ...excludedFieldsSelect } }
+          : {}),
         rejectOnNotFound: true,
       })
       res.status(200).json({
-        status: "success",
+        status: "successful",
         data: {
           [resultName]: doc,
         },
@@ -65,7 +69,7 @@ exports.createDocument = ({
       ...(defaultFieldsSelect ? { select: defaultFieldsSelect } : {}),
     })
     res.status(201).json({
-      status: "success",
+      status: "successful",
       data: {
         [resultName]: newDoc,
       },
@@ -93,7 +97,7 @@ exports.updateDocument = ({
         ...(defaultFieldsSelect ? { select: defaultFieldsSelect } : {}),
       })
       res.status(200).json({
-        status: "success",
+        status: "successful",
         data: {
           [resultName]: newDoc,
         },
@@ -118,7 +122,7 @@ exports.deleteDocuments = ({ modelName }) =>
       if (deletedDocs.count === 0)
         return next(new AppError("record is not found", 404))
       res.status(200).json({
-        status: "success",
+        status: "successful",
       })
     } catch (err) {
       if (err.code === "P2004")

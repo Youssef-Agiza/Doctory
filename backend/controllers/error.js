@@ -1,3 +1,5 @@
+const AppError = require("../utils/AppError")
+
 const sendDevError = (res, error) => {
   res.status(error.statusCode).json({
     staus: error.status,
@@ -24,6 +26,11 @@ const sendProdError = (res, error) => {
 exports.errorHandler = (error, req, res, next) => {
   error.statusCode = error.statusCode || 500
   error.status = error.status || "error"
+
+  if (error.code === "P2002") {
+    error = new AppError("record already exists", 400)
+  }
+
   if (process.env.NODE_ENV === "development") {
     return sendDevError(res, error)
   } else {
@@ -32,5 +39,9 @@ exports.errorHandler = (error, req, res, next) => {
 }
 
 exports.catchAsync = (fn) => {
-  return (req, res, next) => fn(req, res, next).catch(next)
+  return (req, res, next) =>
+    fn(req, res, next).catch((err) => {
+      console.log(err?.message)
+      next(err)
+    })
 }
