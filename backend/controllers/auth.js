@@ -73,7 +73,7 @@ const createSendTokenResponse = (user, statusCode, res, req) => {
   const token = signToken(user.id)
 
   return res.status(statusCode).json({
-    status: "success",
+    status: "successful",
     token,
     data: {
       user: returnUserData(user),

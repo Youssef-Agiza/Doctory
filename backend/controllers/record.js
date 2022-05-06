@@ -1,111 +1,78 @@
-const Joi = require("joi")
+const handlerFactory = require("./factory")
 
-const prisma = require("../models")
+const defaultFieldsSelect = {
+  id: true,
+  date: true,
+  description: true,
+  appointment_id: true,
+  record_type_id: true,
+  appointment: {
+    select: {
+      id: true,
+      appointment_date: true,
+      appointment_from: true,
+      appointment_to: true,
+      dr_national_id: true,
+      patient_national_id: true,
+      doctor: {
+        select: {
+          id: true,
+          name: true,
+          mname: true,
+          lname: true,
+          phone: true,
+          email: true,
+        },
+      },
+      patient: {
+        select: {
+          id: true,
+          name: true,
+          mname: true,
+          lname: true,
+          phone: true,
+          email: true,
+        },
+      },
+    },
+  },
+  record_type: true,
+  record_files: true,
+}
 
 // get all records
-exports.getAllRecords = async (req, res, next) => {
-  try {
-    const records = await prisma.record.findMany({
-      include: { record_type: true },
-    })
-    res.status(200).json(records)
-  } catch (error) {
-    next(error)
-  }
-}
+exports.getAllRecords = handlerFactory.getAllDocuments({
+  modelName: "record",
+  resultsName: "records",
+  defaultFieldsSelect,
+})
 
 // get a specific patient records
-exports.getRecord = async (req, res, next) => {
-  try {
-    const { id } = req.params.id
-    console.log(id)
-    const record = await prisma.record.findUnique({
-      where: {
-        id: Number(id),
-      },
-      include: {
-        record_type: true,
-      },
-    })
-    res.status(200).json(record)
-  } catch (error) {
-    next(error)
-  }
-}
+exports.getRecord = handlerFactory.getDocument({
+  modelName: "record",
+  resultName: "record",
+  defaultFieldsSelect,
+})
 
 // POST
 // create new record
-exports.createRecord = async (req, res, next) => {
-  try {
-    console.log("here", req.body)
+exports.createRecord = handlerFactory.createDocument({
+  modelName: "record",
+  resultName: "record",
+  insertFields: ["date", "description", "appointment_id", "record_type_id"],
+  defaultFieldsSelect,
+})
 
-    const result = validateRecord(req.body)
-    if (result.error) {
-      res.status(400).send(result.error.details[0].message)
-      return
-    }
-    const recordData = req.body
-    recordData.date = new Date()
-    console.log("here")
-
-    const record = await prisma.record.create({
-      data: recordData,
-    })
-    res.status(200).json(record)
-  } catch (error) {
-    console.log("err", error)
-
-    next(error)
-  }
-}
-
-// PUT
+// PATCH
 // update existing record
-exports.updateRecord = async (req, res, next) => {
-  const result = validateRecord(req.body)
-
-  if (result.error) {
-    res.status(400).send(result.error.details[0].message)
-    return
-  }
-
-  try {
-    const { id } = req.params.id
-    const record = await prisma.record.update({
-      where: {
-        id: Number(id),
-      },
-      data: req.body,
-    })
-    res.status(200).json(record)
-  } catch (error) {
-    next(error)
-  }
-}
+exports.updateRecord = handlerFactory.updateDocument({
+  modelName: "record",
+  resultName: "record",
+  updateFields: ["date", "description", "appointment_id", "record_type_id"],
+  defaultFieldsSelect,
+})
 
 // DELETE
-exports.deleteRecord = async (req, res, next) => {
-  try {
-    const { id } = req.params.id
-    const deletedRecord = await prisma.record.delete({
-      where: {
-        id: Number(id),
-      },
-    })
-    res.status(200).json(deletedRecord)
-  } catch (error) {
-    next(error)
-  }
-}
-
-function validateRecord(Record) {
-  const schema = Joi.object({
-    // put them all
-    date: Joi.date().iso(),
-    description: Joi.string().required(),
-    appointments_id: Joi.number().integer().positive().min(1).required(),
-    record_type_id: Joi.number().integer().positive().min(1).required(),
-  })
-
-  return schema.validate(Record)
-}
+exports.deleteRecord = handlerFactory.deleteDocuments({
+  modelName: "record",
+})

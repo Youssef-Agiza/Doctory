@@ -4,7 +4,7 @@
   "description": "Medical Health Record System",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "set NODE_ENV=development && nodemon server.js",
     "start": "set NODE_ENV=production && node server.js"
   },
   "engines": {
